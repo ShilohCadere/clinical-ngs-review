@@ -1,0 +1,4 @@
+sample_id,run_id,sample_type
+sample_001,RUN001,tumor
+sample_002,RUN001,tumor
+sample_003,RUN001,tumor
