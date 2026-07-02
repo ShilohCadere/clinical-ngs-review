@@ -14,6 +14,8 @@ def build_review_summary_table(classified_metrics: pd.DataFrame) -> pd.DataFrame
     return classified_metrics[
         [
             "sample_id",
+            "run_id",
+            "sample_type",
             "alignment_status",
             "coverage_status",
             "duplication_status",
@@ -34,6 +36,8 @@ def build_flagged_samples_table(classified_metrics: pd.DataFrame) -> pd.DataFram
     return flagged_samples[
         [
             "sample_id",
+            "run_id",
+            "sample_type",
             "overall_status",
             "findings",
         ]

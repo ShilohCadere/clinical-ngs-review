@@ -1,4 +1,4 @@
-sample_id,alignment_status,coverage_status,duplication_status,variant_count_status,overall_status
-sample_001,PASS,PASS,PASS,PASS,PASS
-sample_002,FLAG,FLAG,FLAG,FLAG,FLAG
-sample_003,FAIL,FAIL,FAIL,FAIL,FAIL
+sample_id,run_id,sample_type,alignment_status,coverage_status,duplication_status,variant_count_status,overall_status
+sample_001,RUN001,tumor,PASS,PASS,PASS,PASS,PASS
+sample_002,RUN001,tumor,FLAG,FLAG,FLAG,FLAG,FLAG
+sample_003,RUN001,tumor,FAIL,FAIL,FAIL,FAIL,FAIL

@@ -1,6 +1,6 @@
 # Clinical NGS QC Review Report
 
-This report summarizes sample-level QC findings generated from configured review rules.
+This report summarizes sample-level QC findings generated from configurable review rules.
 
 ## Run Summary
 
@@ -10,13 +10,53 @@ This report summarizes sample-level QC findings generated from configured review
 - Flagged samples: 1
 - Failed samples: 1
 
+## Run-Level Findings
+
+### Low Alignment Rate
+
+**Affected samples:** 2
+
+**Interpretation:** Low Alignment Rate was observed in 2 samples. This pattern may indicate a run-level or batch-level issue rather than isolated sample variability.
+
+**Recommended review:** Review run-level QC evidence and evaluate whether the repeated finding suggests broader workflow or sequencing performance concerns.
+
+### Low Coverage
+
+**Affected samples:** 2
+
+**Interpretation:** Low Coverage was observed in 2 samples. This pattern may indicate a run-level or batch-level issue rather than isolated sample variability.
+
+**Recommended review:** Review run-level QC evidence and evaluate whether the repeated finding suggests broader workflow or sequencing performance concerns.
+
+### High Duplication Rate
+
+**Affected samples:** 2
+
+**Interpretation:** High Duplication Rate was observed in 2 samples. This pattern may indicate a run-level or batch-level issue rather than isolated sample variability.
+
+**Recommended review:** Review run-level QC evidence and evaluate whether the repeated finding suggests broader workflow or sequencing performance concerns.
+
+### Low Variant Count
+
+**Affected samples:** 2
+
+**Interpretation:** Low Variant Count was observed in 2 samples. This pattern may indicate a run-level or batch-level issue rather than isolated sample variability.
+
+**Recommended review:** Review run-level QC evidence and evaluate whether the repeated finding suggests broader workflow or sequencing performance concerns.
+
 ## Sample-Level Findings
 
 ### sample_001 — PASS
 
+- Run ID: RUN001
+- Sample Type: tumor
+
 No review-triggering QC findings.
 
 ### sample_002 — FLAG
+
+- Run ID: RUN001
+- Sample Type: tumor
 
 - **FLAG: Low Alignment Rate**
   - Evidence: alignment_rate = 92.1%
@@ -33,6 +73,9 @@ No review-triggering QC findings.
 
 ### sample_003 — FAIL
 
+- Run ID: RUN001
+- Sample Type: tumor
+
 - **FAIL: Low Alignment Rate**
   - Evidence: alignment_rate = 87.4%
   - Recommended review: Review sequence quality and alignment statistics before downstream analysis.
@@ -48,4 +91,4 @@ No review-triggering QC findings.
 
 ## Limitations
 
-These thresholds are example review rules for portfolio demonstration only. They are not clinical release criteria and are not based on any proprietary SOP.
+These thresholds are example review rules created for portfolio demonstration only. They are not clinical release criteria and are not based on any proprietary laboratory SOP.
