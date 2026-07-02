@@ -1,11 +1,41 @@
 """
-Convert QC metric statuses into analyst-style findings.
+Convert QC metric statuses into structured analyst findings.
 
-A finding explains why a sample was flagged instead of only reporting
-that a metric crossed a threshold.
+A finding connects three pieces of analyst reasoning:
+1. What was observed
+2. Why it matters
+3. What should be reviewed next
 """
 
 import pandas as pd
+
+
+FINDING_RULES = {
+    "alignment_status": {
+        "metric": "alignment_rate",
+        "category": "Low Alignment Rate",
+        "unit": "%",
+        "recommendation": "Review sequence quality and alignment statistics before downstream analysis.",
+    },
+    "coverage_status": {
+        "metric": "mean_coverage",
+        "category": "Low Coverage",
+        "unit": "x",
+        "recommendation": "Confirm sequencing depth and review whether coverage is sufficient for downstream interpretation.",
+    },
+    "duplication_status": {
+        "metric": "duplication_rate",
+        "category": "High Duplication Rate",
+        "unit": "%",
+        "recommendation": "Review library complexity and duplication metrics before interpreting downstream results.",
+    },
+    "variant_count_status": {
+        "metric": "variant_count",
+        "category": "Low Variant Count",
+        "unit": "",
+        "recommendation": "Review variant calling output and confirm whether variant yield is consistent with expectations.",
+    },
+}
 
 
 def get_overall_status(statuses: list[str]) -> str:
@@ -21,50 +51,60 @@ def get_overall_status(statuses: list[str]) -> str:
     return "PASS"
 
 
-def build_sample_finding(row: pd.Series) -> str:
+def format_evidence(metric_name: str, value: float, unit: str) -> str:
     """
-    Create a short human-readable finding for one sample.
+    Create a short evidence statement for a single metric.
+    """
+    if unit:
+        return f"{metric_name} = {value}{unit}"
+
+    return f"{metric_name} = {value}"
+
+
+def build_findings(row: pd.Series) -> list[dict]:
+    """
+    Build structured findings for one sample.
+
+    Returns an empty list when no review-triggering findings are present.
     """
     findings = []
 
-    if row["alignment_status"] != "PASS":
-        findings.append(f"{row['alignment_status']}: alignment rate {row['alignment_rate']}%")
+    for status_column, rule in FINDING_RULES.items():
+        status = row[status_column]
 
-    if row["coverage_status"] != "PASS":
-        findings.append(f"{row['coverage_status']}: mean coverage {row['mean_coverage']}x")
+        if status == "PASS":
+            continue
 
-    if row["duplication_status"] != "PASS":
-        findings.append(f"{row['duplication_status']}: duplication rate {row['duplication_rate']}%")
+        metric_name = rule["metric"]
+        metric_value = row[metric_name]
 
-    if row["variant_count_status"] != "PASS":
-        findings.append(f"{row['variant_count_status']}: variant count {row['variant_count']}")
+        findings.append(
+            {
+                "category": rule["category"],
+                "severity": status,
+                "evidence": format_evidence(metric_name, metric_value, rule["unit"]),
+                "recommendation": rule["recommendation"],
+            }
+        )
 
-    if not findings:
-        return "No review-triggering QC findings"
-
-    return "; ".join(findings)
+    return findings
 
 
 def classify_findings(reviewed_metrics: pd.DataFrame) -> pd.DataFrame:
     """
-    Add overall sample status and analyst-style findings.
+    Add overall sample status and structured analyst findings.
     """
     classified_metrics = reviewed_metrics.copy()
 
-    status_columns = [
-        "alignment_status",
-        "coverage_status",
-        "duplication_status",
-        "variant_count_status",
-    ]
+    status_columns = list(FINDING_RULES.keys())
 
     classified_metrics["overall_status"] = classified_metrics[status_columns].apply(
         lambda row: get_overall_status(row.tolist()),
         axis=1,
     )
 
-    classified_metrics["finding_summary"] = classified_metrics.apply(
-        build_sample_finding,
+    classified_metrics["findings"] = classified_metrics.apply(
+        build_findings,
         axis=1,
     )
 

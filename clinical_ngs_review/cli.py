@@ -11,6 +11,25 @@ from clinical_ngs_review.analysis.summarize_run import summarize_run
 from clinical_ngs_review.ingest.load_metrics import load_qc_metrics
 
 
+def print_sample_findings(classified_metrics) -> None:
+    """
+    Print sample-level findings in a readable format for the command line.
+    """
+    print("\nSample Review Results")
+
+    for _, row in classified_metrics.iterrows():
+        print(f"\n{row['sample_id']} - {row['overall_status']}")
+
+        if not row["findings"]:
+            print("  No review-triggering QC findings")
+            continue
+
+        for finding in row["findings"]:
+            print(f"  {finding['severity']}: {finding['category']}")
+            print(f"    Evidence: {finding['evidence']}")
+            print(f"    Recommended review: {finding['recommendation']}")
+
+
 def main() -> None:
     """
     Run the MVP review workflow using example files.
@@ -22,8 +41,7 @@ def main() -> None:
     classified_metrics = classify_findings(reviewed_metrics)
     run_summary = summarize_run(classified_metrics)
 
-    print("\nSample Review Results")
-    print(classified_metrics[["sample_id", "overall_status", "finding_summary"]])
+    print_sample_findings(classified_metrics)
 
     print("\nRun Summary")
     for key, value in run_summary.items():
