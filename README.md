@@ -98,6 +98,28 @@ Example datasets are included to demonstrate the complete review workflow.
 
 These example datasets are simulated and exist solely to demonstrate workflow behavior. They do not represent clinical sequencing data or proprietary laboratory outputs.
 
+## Execution
+
+Install project dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run the complete analytical review workflow:
+
+```bash
+python -m clinical_ngs_review.cli
+```
+
+Execute the automated test suite:
+
+```bash
+python -m pytest
+```
+
+Generated reports will be written to the `reports/` directory.
+
 ## Example Outputs
 
 Successful execution generates analyst-facing review artifacts within the `reports/` directory.
