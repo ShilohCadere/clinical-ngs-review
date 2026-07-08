@@ -5,6 +5,9 @@ A finding connects three pieces of analyst reasoning:
 1. What was observed
 2. Why it matters
 3. What should be reviewed next
+
+Findings also include review priority. Severity describes how concerning
+a finding is; priority describes where an analyst should start reviewing.
 """
 
 import pandas as pd
@@ -15,24 +18,28 @@ FINDING_RULES = {
         "metric": "alignment_rate",
         "category": "Low Alignment Rate",
         "unit": "%",
+        "priority": 1,
         "recommendation": "Review sequence quality and alignment statistics before downstream analysis.",
     },
     "coverage_status": {
         "metric": "mean_coverage",
         "category": "Low Coverage",
         "unit": "x",
+        "priority": 2,
         "recommendation": "Confirm sequencing depth and review whether coverage is sufficient for downstream interpretation.",
     },
     "duplication_status": {
         "metric": "duplication_rate",
         "category": "High Duplication Rate",
         "unit": "%",
+        "priority": 3,
         "recommendation": "Review library complexity and duplication metrics before interpreting downstream results.",
     },
     "variant_count_status": {
         "metric": "variant_count",
         "category": "Low Variant Count",
         "unit": "",
+        "priority": 4,
         "recommendation": "Review variant calling output and confirm whether variant yield is consistent with expectations.",
     },
 }
@@ -82,12 +89,13 @@ def build_findings(row: pd.Series) -> list[dict]:
             {
                 "category": rule["category"],
                 "severity": status,
+                "priority": rule["priority"],
                 "evidence": format_evidence(metric_name, metric_value, rule["unit"]),
                 "recommendation": rule["recommendation"],
             }
         )
 
-    return findings
+    return sorted(findings, key=lambda finding: finding["priority"])
 
 
 def classify_findings(reviewed_metrics: pd.DataFrame) -> pd.DataFrame:

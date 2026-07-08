@@ -46,9 +46,7 @@ def format_run_level_findings(run_summary: dict) -> str:
         lines.append("")
         lines.append(f"**Interpretation:** {finding['interpretation']}")
         lines.append("")
-        lines.append(
-            f"**Recommended review:** {finding['recommended_review']}"
-        )
+        lines.append(f"**Recommended review:** {finding['recommended_review']}")
         lines.append("")
 
     return "\n".join(lines)
@@ -73,11 +71,12 @@ def format_sample_findings(classified_metrics) -> str:
             continue
 
         for finding in row["findings"]:
-            lines.append(f"- **{finding['severity']}: {finding['category']}**")
-            lines.append(f"  - Evidence: {finding['evidence']}")
             lines.append(
-                f"  - Recommended review: {finding['recommendation']}"
+                f"- **Priority {finding['priority']} | "
+                f"{finding['severity']}: {finding['category']}**"
             )
+            lines.append(f"  - Evidence: {finding['evidence']}")
+            lines.append(f"  - Recommended review: {finding['recommendation']}")
 
         lines.append("")
 

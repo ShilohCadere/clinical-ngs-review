@@ -58,16 +58,16 @@ No review-triggering QC findings.
 - Run ID: RUN001
 - Sample Type: tumor
 
-- **FLAG: Low Alignment Rate**
+- **Priority 1 | FLAG: Low Alignment Rate**
   - Evidence: alignment_rate = 92.1%
   - Recommended review: Review sequence quality and alignment statistics before downstream analysis.
-- **FLAG: Low Coverage**
+- **Priority 2 | FLAG: Low Coverage**
   - Evidence: mean_coverage = 24.8x
   - Recommended review: Confirm sequencing depth and review whether coverage is sufficient for downstream interpretation.
-- **FLAG: High Duplication Rate**
+- **Priority 3 | FLAG: High Duplication Rate**
   - Evidence: duplication_rate = 28.5%
   - Recommended review: Review library complexity and duplication metrics before interpreting downstream results.
-- **FLAG: Low Variant Count**
+- **Priority 4 | FLAG: Low Variant Count**
   - Evidence: variant_count = 31
   - Recommended review: Review variant calling output and confirm whether variant yield is consistent with expectations.
 
@@ -76,16 +76,16 @@ No review-triggering QC findings.
 - Run ID: RUN001
 - Sample Type: tumor
 
-- **FAIL: Low Alignment Rate**
+- **Priority 1 | FAIL: Low Alignment Rate**
   - Evidence: alignment_rate = 87.4%
   - Recommended review: Review sequence quality and alignment statistics before downstream analysis.
-- **FAIL: Low Coverage**
+- **Priority 2 | FAIL: Low Coverage**
   - Evidence: mean_coverage = 17.2x
   - Recommended review: Confirm sequencing depth and review whether coverage is sufficient for downstream interpretation.
-- **FAIL: High Duplication Rate**
+- **Priority 3 | FAIL: High Duplication Rate**
   - Evidence: duplication_rate = 46.0%
   - Recommended review: Review library complexity and duplication metrics before interpreting downstream results.
-- **FAIL: Low Variant Count**
+- **Priority 4 | FAIL: Low Variant Count**
   - Evidence: variant_count = 8
   - Recommended review: Review variant calling output and confirm whether variant yield is consistent with expectations.
 
