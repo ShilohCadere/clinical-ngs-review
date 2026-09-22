@@ -1,19 +1,15 @@
 alignment_rate:
   pass_min: 95
-  flag_min: 90
   fail_below: 90
 
 mean_coverage:
   pass_min: 30
-  flag_min: 20
   fail_below: 20
 
 duplication_rate:
   pass_max: 20
-  flag_max: 40
   fail_above: 40
 
 variant_count:
   pass_min: 50
-  flag_min: 10
   fail_below: 10
