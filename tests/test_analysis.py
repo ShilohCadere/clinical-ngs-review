@@ -27,13 +27,14 @@ def test_minimum_rule_returns_pass_flag_fail():
     """
     rule = {
         "pass_min": 95,
-        "flag_min": 90,
         "fail_below": 90,
     }
 
     assert evaluate_minimum_rule(97, rule) == "PASS"
     assert evaluate_minimum_rule(92, rule) == "FLAG"
     assert evaluate_minimum_rule(88, rule) == "FAIL"
+    assert evaluate_minimum_rule(95, rule) == "PASS"
+    assert evaluate_minimum_rule(90, rule) == "FLAG"
 
 
 def test_maximum_rule_returns_pass_flag_fail():
@@ -42,13 +43,14 @@ def test_maximum_rule_returns_pass_flag_fail():
     """
     rule = {
         "pass_max": 20,
-        "flag_max": 40,
         "fail_above": 40,
     }
 
     assert evaluate_maximum_rule(12, rule) == "PASS"
     assert evaluate_maximum_rule(28, rule) == "FLAG"
     assert evaluate_maximum_rule(46, rule) == "FAIL"
+    assert evaluate_maximum_rule(20, rule) == "PASS"
+    assert evaluate_maximum_rule(40, rule) == "FLAG"
 
 
 def test_apply_rules_adds_status_columns():
@@ -66,10 +68,10 @@ def test_apply_rules_adds_status_columns():
     )
 
     review_rules = {
-        "alignment_rate": {"pass_min": 95, "flag_min": 90, "fail_below": 90},
-        "mean_coverage": {"pass_min": 30, "flag_min": 20, "fail_below": 20},
-        "duplication_rate": {"pass_max": 20, "flag_max": 40, "fail_above": 40},
-        "variant_count": {"pass_min": 50, "flag_min": 10, "fail_below": 10},
+        "alignment_rate": {"pass_min": 95, "fail_below": 90},
+        "mean_coverage": {"pass_min": 30, "fail_below": 20},
+        "duplication_rate": {"pass_max": 20, "fail_above": 40},
+        "variant_count": {"pass_min": 50, "fail_below": 10},
     }
 
     reviewed_metrics = apply_rules(qc_metrics, review_rules)
