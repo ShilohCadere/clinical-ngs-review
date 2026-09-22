@@ -56,7 +56,7 @@ clinical-ngs-review/
 │   ├── analysis/      # QC rule evaluation and analytical reasoning
 │   ├── ingest/        # Input loading and validation
 │   ├── reporting/     # CSV and Markdown report generation
-│   └── cli.py         # Command-line entry point
+│   └── cli.py         # Configurable command-line entry point
 ├── config/            # Configurable QC review rules
 ├── data/              # Example input datasets
 ├── reports/           # Generated report outputs
@@ -77,7 +77,8 @@ Current functionality includes:
 - Prioritizing findings to guide analyst review order.
 - Detecting recurring run-level QC patterns across multiple samples.
 - Generating analyst-facing CSV summary tables and Markdown review reports.
-- Verifying analytical logic through automated unit tests.
+- Accepting custom metrics, metadata, rules, and output paths through command-line arguments.
+- Verifying analytical logic and CLI configuration through automated unit tests.
 
 ## Example Inputs
 
@@ -106,10 +107,26 @@ Install project dependencies:
 pip install -r requirements.txt
 ```
 
-Run the complete analytical review workflow:
+Run the bundled demonstration workflow using the default example files:
 
 ```bash
 python -m clinical_ngs_review.cli
+```
+
+Run the workflow with custom inputs:
+
+```bash
+python -m clinical_ngs_review.cli \
+  --metrics path/to/qc_metrics.csv \
+  --metadata path/to/sample_metadata.csv \
+  --rules path/to/review_rules.yml \
+  --output-dir path/to/reports
+```
+
+Available options can be viewed with:
+
+```bash
+python -m clinical_ngs_review.cli --help
 ```
 
 Execute the automated test suite:
@@ -118,11 +135,11 @@ Execute the automated test suite:
 python -m pytest
 ```
 
-Generated reports will be written to the `reports/` directory.
+By default, generated reports are written to the `reports/` directory.
 
 ## Example Outputs
 
-Successful execution generates analyst-facing review artifacts within the `reports/` directory.
+Successful execution generates analyst-facing review artifacts within the selected output directory.
 
 ### Review Summary (CSV)
 
@@ -165,9 +182,13 @@ Findings are represented as structured data instead of formatted text. This allo
 
 In addition to evaluating individual samples, the application identifies recurring QC findings across a sequencing run. This demonstrates how analytical review extends beyond isolated sample metrics.
 
+### Configurable Command-Line Execution
+
+The command-line entry point accepts input and output paths while retaining defaults for the bundled demonstration dataset. This keeps the project easy to run while allowing the same workflow to be applied to alternate compatible inputs without code changes.
+
 ### Test-Driven Validation
 
-Core analytical behavior is verified through unit tests covering ingestion, rule evaluation, classification, run summarization, and report generation.
+Core analytical behavior is verified through unit tests covering ingestion, rule evaluation, classification, run summarization, report generation, and command-line configuration.
 
 ## Testing
 
@@ -176,19 +197,18 @@ Automated tests verify the analytical behavior of the application rather than ex
 Current test coverage includes:
 
 - Input validation
-- QC rule evaluation
+- QC rule evaluation and threshold boundaries
 - PASS / FLAG / FAIL classification
 - Sample-level finding generation
 - Run-level pattern detection
 - Markdown report generation
+- Default and custom CLI argument handling
 
 Run all tests with:
 
 ```bash
 python -m pytest
 ```
-
-At the time of publication, the project contains 13 automated unit tests covering the core analytical workflow.
 
 ## Future Improvements
 
