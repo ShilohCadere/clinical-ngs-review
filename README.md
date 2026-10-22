@@ -221,6 +221,11 @@ Planned future development includes:
 
 Future development will continue to prioritize analytical reasoning, maintainable software architecture, and modular design over feature quantity.
 
+## Related Portfolio Work
+
+- [Clinical NGS Workflow](https://github.com/ShilohCadere/clinical-ngs-workflow) models upstream FASTQ-to-VCF processing. Automated integration with this review application is not yet implemented.
+- [Sequence QC Filtering](https://github.com/ShilohCadere/ngs-qc-pipeline) is an earlier foundational FASTA filtering exercise, not part of this review application.
+
 ## Technologies Used
 
 Python • pandas • PyYAML • pytest • Markdown
